@@ -2,66 +2,49 @@
 
 namespace iamjohndev;
 
-class ChartinPHP
-{
-    private $chartType;
-    private $chartData;
+class ChartinPHP {
+
     private $chartOptions;
-    private $canvasId;
+    private $chartData;
+    private $chartID;
 
-    public function __construct($chartType, $chartData, $chartOptions = [], $canvasId = null)
-    {
-        $this->chartType = $chartType;
-        $this->chartData = $chartData;
-        $this->chartOptions = $chartOptions;
-        $this->canvasId = $canvasId;
+    public function __construct($chartOptions, $chartData, $chartID = null) {
+        $this->chartOptions = json_encode($chartOptions, JSON_NUMERIC_CHECK);
+        $this->chartData = json_encode($chartData, JSON_NUMERIC_CHECK);
+        $this->chartID = $chartID ?: uniqid('chart_');
     }
 
-    public function render()
-    {
-        $this->validateChartType();
-        $this->sanitizeChartData();
-        $this->sanitizeChartOptions();
-
-        if (empty($this->canvasId)) {
-            $this->canvasId = 'chart_' . uniqid(); // Generate unique ID for canvas element
-        }
-
-        $html = '<canvas id="' . $this->canvasId . '" width="400" height="400"></canvas>';
-        $html .= '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
-        $html .= '<script>';
-        $html .= 'var ctx = document.getElementById("' . $this->canvasId . '").getContext("2d");';
-        $html .= 'var chart = new Chart(ctx, {';
-        $html .= 'type: "' . $this->chartType . '",';
-        $html .= 'data: ' . json_encode($this->chartData) . ',';
-        $html .= 'options: ' . json_encode($this->chartOptions) . ',';
-        $html .= '});';
-        $html .= '</script>';
-
-        return $html;
+    public function renderChart() {
+        echo '<div id="' . $this->chartID . '"></div>';
+        echo '<script>';
+        echo 'var ' . $this->chartID . ' = new ApexCharts(document.getElementById("' . $this->chartID . '"), ' . $this->chartOptions . ');';
+        echo $this->chartID . '.render();';
+        echo '</script>';
     }
 
-    private function validateChartType()
-    {
-        $validChartTypes = ['bar', 'line', 'pie', 'doughnut', 'polarArea', 'radar'];
-        if (!in_array($this->chartType, $validChartTypes)) {
-            throw new \InvalidArgumentException('Invalid chart type');
-        }
+    public function getChartOptions() {
+        return $this->chartOptions;
     }
 
-    private function sanitizeChartData()
-    {
-        // Sanitize chart data to prevent SQL injection and XSS attacks
-        // You may need to customize this based on the structure of your chart data
-        // Example: Assuming the chartData is an array of data points, we can use array_map() function to sanitize each data point
-        $this->chartData = array_map('htmlspecialchars', $this->chartData);
+    public function setChartOptions($chartOptions) {
+        $this->chartOptions = json_encode($chartOptions, JSON_NUMERIC_CHECK);
     }
 
-    private function sanitizeChartOptions()
-    {
-        // Sanitize chart options to prevent SQL injection and XSS attacks
-        // You may need to customize this based on the structure of your chart options
-        // Example: Assuming the chartOptions is an associative array, we can use array_map() function to sanitize each option value
-        $this->chartOptions = array_map('htmlspecialchars', $this->chartOptions);
+    public function getChartData() {
+        return $this->chartData;
+    }
+
+    public function setChartData($chartData) {
+        $this->chartData = json_encode($chartData, JSON_NUMERIC_CHECK);
+    }
+
+    public function getChartID() {
+        return $this->chartID;
+    }
+
+    public function setChartID($chartID) {
+        $this->chartID = $chartID;
     }
 }
+
+?>
