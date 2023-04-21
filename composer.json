@@ -1,0 +1,19 @@
+{
+    "name": "iamjohndev/chartinphp",
+    "description": "A PHP class for rendering charts using Chart.js library.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "John Lester Legaspi",
+            "email": "mail@iamjohndev.fun"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChartInPHP\\": "src/"
+        }
+    }
+}
