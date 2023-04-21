@@ -21,6 +21,9 @@ ChartinPHP is a PHP library that allows you to render interactive charts using A
 2. Include the ChartinPHP.php file in your PHP script using the `require_once` statement.
 3. Make sure you have the ApexCharts JavaScript library included in your HTML file. You can download it from the ApexCharts website or include it from a CDN.
 
+## Via Composer
+`composer require iamjohndev/chartinphp:dev-main`
+
 ## Usage
 
 ### Creating a Chart
