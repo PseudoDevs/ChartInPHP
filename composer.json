@@ -2,6 +2,7 @@
     "name": "iamjohndev/chartinphp",
     "description": "A PHP class for rendering charts using Chart.js library.",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "John Lester Legaspi",
